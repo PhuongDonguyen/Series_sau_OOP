@@ -32,12 +32,16 @@ public class JdbcMain {
 		
 		// beginner
 		
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
 		try {
 			String query = "SELECT * FROM building";
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
 
 			while (rs.next()) {
 				System.out.print("ID: " + rs.getLong("id"));
@@ -48,11 +52,16 @@ public class JdbcMain {
 				System.out.println(", floorArea: " + rs.getString("floorarea"));
 			}
 			
-			conn.close();
-			stmt.close();
-			rs.close();
 		} catch(ClassNotFoundException | SQLException e) {
 			System.out.println("Error: " + e.getMessage());
+		} finally {
+			try {
+				if (conn != null) conn.close();
+				if (stmt != null) stmt.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				System.out.println("Error: " + e.getMessage());
+			}
 		}
 		
 	}
