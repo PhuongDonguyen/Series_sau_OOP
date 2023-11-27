@@ -3,6 +3,7 @@ package com.laptrinhjavaweb.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,7 +31,13 @@ public class JdbcMain {
 //		}
 
 		
-		// beginner
+		// beginner		
+		Long id = null;
+		String name = null;
+		String street = null;
+		String district = null;
+		String ward = null;
+		
 		
 		Connection conn = null;
 		Statement stmt = null;
@@ -42,10 +49,10 @@ public class JdbcMain {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query);
-
+			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
-				System.out.print("ID: " + rs.getLong("id"));
-				System.out.print("Name: " + rs.getString("name"));
+				System.out.print("ID: " + rs.getLong("id") + ", Type: " + rsmd.getColumnType(1));
+				System.out.print(", name: " + rs.getString("name"));
 				System.out.print(", street: " + rs.getString("street"));
 				System.out.print(", district: " + rs.getString("district"));
 				System.out.print(", ward: " + rs.getString("ward"));
