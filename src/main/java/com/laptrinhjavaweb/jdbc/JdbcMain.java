@@ -37,14 +37,21 @@ public class JdbcMain {
 		String street = null;
 		String district = null;
 		String ward = null;
-		
+		Integer floorArea = null;
+		Integer numberOfBasement = null;
 		
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT * FROM building";
+			String query = "SELECT * FROM building where 1 = 1";
+			query += " and name like '%" + name + "%'";
+			query += " and street like '%" + street + "%'";
+			query += " and district like '%" + district + "%'";
+			query += " and ward like '%" + ward + "%'";
+			query += " and floorArea = " + floorArea;
+			query += " and numberOfBasement = " + numberOfBasement; 
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
