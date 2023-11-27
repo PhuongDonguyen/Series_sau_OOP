@@ -7,31 +7,13 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class JdbcMain {
+public class BuildingJDBC {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/javasql92023";
 	static final String USER = "root";
 	static final String PASS = "xinchaovietnam";
 
 
 	public static void main(String[] args) {
-//		Experience
-//		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-//				Statement stmt = conn.createStatement();
-//				ResultSet rs = stmt.executeQuery(QUERY);) {
-//			while (rs.next()) {
-//				// Display values
-//				System.out.print("Name: " + rs.getString("name"));
-//				System.out.print(", street: " + rs.getString("street"));
-//				System.out.print(", district: " + rs.getString("district"));
-//				System.out.print(", ward: " + rs.getString("ward"));
-//				System.out.println(", floorArea: " + rs.getString("floorarea"));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-
-		
-		// beginner		
 		Long id = null;
 		String name = null;
 		String street = null;
@@ -45,17 +27,17 @@ public class JdbcMain {
 		ResultSet rs = null;
 		
 		try {
-			String query = "SELECT * FROM building where 1 = 1";
-			query += " and name like '%" + name + "%'";
-			query += " and street like '%" + street + "%'";
-			query += " and district like '%" + district + "%'";
-			query += " and ward like '%" + ward + "%'";
-			query += " and floorArea = " + floorArea;
-			query += " and numberOfBasement = " + numberOfBasement; 
+			StringBuilder query = new StringBuilder("SELECT * FROM building where 1 = 1");
+			query.append(" and name like '%" + name + "%'");
+			query.append(" and street like '%" + street + "%'");
+			query.append(" and district like '%" + district + "%'");
+			query.append(" and ward like '%" + ward + "%'");
+			query.append(" and floorArea = " + floorArea);
+			query.append(" and numberOfBasement = " + numberOfBasement); 
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery(query);
+			rs = stmt.executeQuery(query.toString());
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
 				System.out.print("ID: " + rs.getLong("id") + ", Type: " + rsmd.getColumnType(1));
